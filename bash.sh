@@ -5,12 +5,12 @@
 ################################################################################
 
 ## env varables details
-HELPER_SCRIPTS=scripts/helpers
-METADATA_FILE=scripts/metadatafile
-IMAGEDATA_FILE=scripts/imagedata.json
-IMAGE_VERSION=dev
-IMAGE_OS=ubuntu18
-DEBIAN_FRONTEND=noninteractive
+export HELPER_SCRIPTS=scripts/helpers
+export METADATA_FILE=scripts/metadatafile
+export IMAGEDATA_FILE=scripts/imagedata.json
+export IMAGE_VERSION=dev
+export IMAGE_OS=ubuntu18
+export DEBIAN_FRONTEND=noninteractive
 
 
 # Excute repo.sh
@@ -28,24 +28,23 @@ echo 'session required pam_limits.so' >> /etc/pam.d/common-session
 echo 'session required pam_limits.so' >> /etc/pam.d/common-session-noninteractive
 echo 'session required pam_limits.so' >> /etc/pam.d/common-session-noninteractive
 
-# Excute preparemetadata script
-sh scripts/installers/1804/preparemetadata.sh
 
-# Excute preimagedata script
-sh scripts/installers/preimagedata.sh
 
 # Excute configure-environment script
-sh scripts/installers/configure-environment.sh
+bash scripts/installers/configure-environment.sh
 
 # Excute complete-snap-setup script
-sh scripts/installers/complete-snap-setup.sh
+bash scripts/installers/complete-snap-setup.sh
 
-# Excute homebrew script
-sh scripts/installers/homebrew.sh"
+# Excute 7-zip script
+bash scripts/installers/ansible.sh
 
-# Excute reboot script
-sh scripts/base/reboot.sh
+# Excute 7-zip script
+bash scripts/installers/ansible.sh
 
-# Excute homebrew-validate script
-sh scripts/installers/homebrew-validate.sh
+# Excute basic script
+bash scripts/installers/1804/basic.sh
+
+
+
 
