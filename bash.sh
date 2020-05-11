@@ -45,6 +45,27 @@ bash scripts/installers/ansible.sh
 # Excute basic script
 bash scripts/installers/1804/basic.sh
 
+# Excute build-essential script
+bash scripts/installers/build-essential.sh
+
+# Excute azcopy script
+bash scripts/installers/azcopy.sh
+
+# Excute azure-cli script
+bash scripts/installers/azure-cli
+
+# Excute azure-devops-cli script
+bash scripts/installers/azure-devops-cli
+
+# Excute java-tools script
+bash scripts/installers/java-tools.sh
+
+# Excute dotnetcore-sdk script
+bash scripts/installers/dotnetcore-sdk.sh
+
+# Excute google-chrome script
+bash scripts/installers/google-chrome.sh
+
 
 
 
