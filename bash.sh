@@ -5,12 +5,12 @@
 ################################################################################
 
 ## env varables details
-export HELPER_SCRIPTS=scripts/helpers
-export METADATA_FILE=scripts/metadatafile
-export IMAGEDATA_FILE=scripts/imagedata.json
-export IMAGE_VERSION=dev
-export IMAGE_OS=ubuntu18
-export DEBIAN_FRONTEND=noninteractive
+HELPER_SCRIPTS=scripts/helpers
+METADATA_FILE=scripts/metadatafile
+IMAGEDATA_FILE=scripts/imagedata.json
+IMAGE_VERSION=dev
+IMAGE_OS=ubuntu18
+DEBIAN_FRONTEND=noninteractive
 
 
 # Excute repo.sh
@@ -28,44 +28,24 @@ echo 'session required pam_limits.so' >> /etc/pam.d/common-session
 echo 'session required pam_limits.so' >> /etc/pam.d/common-session-noninteractive
 echo 'session required pam_limits.so' >> /etc/pam.d/common-session-noninteractive
 
+# Excute preparemetadata script
+sh scripts/installers/1804/preparemetadata.sh
 
+# Excute preimagedata script
+sh scripts/installers/preimagedata.sh
 
 # Excute configure-environment script
-bash scripts/installers/configure-environment.sh
+sh scripts/installers/configure-environment.sh
 
 # Excute complete-snap-setup script
-bash scripts/installers/complete-snap-setup.sh
+sh scripts/installers/complete-snap-setup.sh
 
-# Excute 7-zip script
-bash scripts/installers/ansible.sh
+# Excute homebrew script
+sh scripts/installers/homebrew.sh
 
-# Excute 7-zip script
-bash scripts/installers/ansible.sh
+# Excute reboot script
+sh scripts/base/reboot.sh
 
-# Excute basic script
-bash scripts/installers/1804/basic.sh
-
-# Excute build-essential script
-bash scripts/installers/build-essential.sh
-
-# Excute azcopy script
-bash scripts/installers/azcopy.sh
-
-# Excute azure-cli script
-bash scripts/installers/azure-cli
-
-# Excute azure-devops-cli script
-bash scripts/installers/azure-devops-cli
-
-# Excute java-tools script
-bash scripts/installers/java-tools.sh
-
-# Excute dotnetcore-sdk script
-bash scripts/installers/dotnetcore-sdk.sh
-
-# Excute google-chrome script
-bash scripts/installers/google-chrome.sh
-
-
-
+# Excute homebrew-validate script
+sh scripts/installers/homebrew-validate.sh
 
