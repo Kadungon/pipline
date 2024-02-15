@@ -33,13 +33,36 @@ async function main() {
     const path = createFolderPath(depth);
     createFolder(path);
 
-    createPageFile(path, 'Page', depth);
+    createFile(path, 'Page', 'tsx');
     createFile(path, 'Layout', 'tsx');
     createFile(path, `fetch${dynamicRouteNames[depth - 1]}.tsx`);
   }
+
+  console.log('Folder structure created successfully!');
 }
 
-// ... (Implementation of createFolderPath, createFolder, and createFile functions remains the same)
+function createFolderPath(depth: number): string {
+  let path = '';
+  for (let i = 1; i <= depth; i++) {
+    path += `/${i}`;
+  }
+  return path;
+}
+
+function createFolder(path: string) {
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path, { recursive: true });
+  }
+}
+
+function createFile(path: string, fileName: string, extension: string) {
+  const filePath = `${path}/${fileName}.${extension}`;
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, '', 'utf8');
+  } else {
+    console.warn(`File already exists: ${filePath}`);
+  }
+}
 
 function createParentRootFiles() {
   createFile('', 'States', 'index.ts');
@@ -51,3 +74,6 @@ function createParentRootFiles() {
   createFile('Component', 'Loader.tsx');
   createFile('Component', 'Error.tsx');
 }
+
+main();
+  
