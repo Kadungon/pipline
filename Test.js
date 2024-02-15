@@ -1,79 +1,66 @@
-import * as fs from 'fs';
-import * as readline from 'readline';
 
-async function main() {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  const routesDepth = Number(await new Promise((resolve) => {
-    rl.question('What is the maximum depth of your dynamic routes? ', (answer) => {
-      resolve(answer);
-    });
-  }));
-
-  const dynamicRouteNames = [];
-  for (let i = 1; i <= routesDepth; i++) {
-    const routeName = await new Promise((resolve) => {
-      rl.question(`Enter name for dynamic route ${i}: `, (answer) => {
-        resolve(answer);
-      });
-    });
-    dynamicRouteNames.push(routeName);
-  }
-
-  rl.close();
-
-  // Create parent root files
-  createParentRootFiles();
-
-  // Create dynamic route folders and files
-  for (let depth = 1; depth <= routesDepth; depth++) {
-    const path = createFolderPath(depth);
-    createFolder(path);
-
-    createFile(path, 'Page', 'tsx');
-    createFile(path, 'Layout', 'tsx');
-    createFile(path, `fetch${dynamicRouteNames[depth - 1]}.tsx`);
-  }
-
-  console.log('Folder structure created successfully!');
-}
-
-function createFolderPath(depth: number): string {
-  let path = '';
-  for (let i = 1; i <= depth; i++) {
-    path += `/${i}`;
-  }
-  return path;
-}
-
-function createFolder(path: string) {
-  if (!fs.existsSync(path)) {
-    fs.mkdirSync(path, { recursive: true });
-  }
-}
-
-function createFile(path: string, fileName: string, extension: string) {
-  const filePath = `${path}/${fileName}.${extension}`;
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, '', 'utf8');
-  } else {
-    console.warn(`File already exists: ${filePath}`);
-  }
-}
-
-function createParentRootFiles() {
-  createFile('', 'States', 'index.ts');
-  createFile('', 'Query', 'index.ts');
-  createFile('', 'filter.tsx');
-  createFile('', `fetch${dynamicRouteNames[0]}.tsx`);
-  createFile('Component', 'page.tsx');
-  createFile('Component', 'Layout.tsx');
-  createFile('Component', 'Loader.tsx');
-  createFile('Component', 'Error.tsx');
-}
-
-main();
   
+Playbook: Creating a New Page with Multiple Dynamic Routes and GraphQL in Next.js 13:
+
+Target: Generate a new page in Next.js 13 with multiple dynamic routes based on a filter dropdown, utilizing GraphQL queries and Apollo Client for data fetching.
+
+Structure:
+
+Parent Page (/app/(parents)):
+page.tsx: Main component for the page.
+layout.tsx: Shared layout for the page and dynamic routes.
+error.tsx: Component displayed in case of errors.
+states/index.ts: Manages application state.
+Component/index.js: Reusable components folder (optional).
+Query/index.js: Houses GraphQL queries and Apollo Client setup.
+filters.tsx: Filter dropdown component.
+fetch(first dynamic route name).tsx: Initializes Apollo Client and initial query.
+[Dynamic name]: Wildcard folder for dynamic routes (e.g., [category][product]).
+Page.tsx: Component for each dynamic route level.
+Layout.tsx: Reuses the parent layout in dynamic routes.
+fetch[dynamic page 2].tsx: Fetches data based on dynamic route parameters using GraphQL queries.
+Explanation:
+
+Initial Setup:
+
+Install @apollo/client and other necessary dependencies for Apollo Client in your Next.js project.
+Parent Page:
+
+page.tsx: Similar to before, handles filter selection and renders dynamic route content.
+layout.tsx: Same shared layout.
+error.tsx: Same error handling.
+states/index.ts: May store additional data related to GraphQL responses and loading states.
+Component/index.js (optional): Same purpose.
+Query/index.js:
+Defines GraphQL queries for initial data and subsequent dynamic route data based on filters and parameters.
+Sets up Apollo Client with your GraphQL endpoint configuration.
+Provides components with access to query data and error handling.
+filters.tsx: Same, but updates Apollo Client state with selected filters for subsequent queries.
+fetch(first dynamic route name).tsx:
+Initializes Apollo Client instance and triggers the initial query using useQuery.
+Provides initial data to page.tsx for rendering.
+Dynamic Routes:
+
+Page.tsx: Similar, but fetches data specific to the current route level using queries from Query/index.js.
+Layout.tsx: Same reused layout.
+fetch[dynamic page 2].tsx:
+Uses queries defined in Query/index.js with dynamic route parameters.
+Provides specific data to Page.tsx for rendering.
+Content Suggestions:
+
+page.tsx: Use Apollo hooks (e.g., useQuery) to access query data and loading/error states from Query/index.js.
+Query/index.js: Define relevant GraphQL queries for initial data and each dynamic route level.
+Utilize variables for dynamic parameters in queries.
+Implement error handling and loading states within queries.
+Consider using a GraphQL client cache and optimistic updates for improved performance.
+Remember to adjust file paths, component names, and styling according to your project setup.
+Additional Notes:
+
+This is a high-level overview, and you might need to adapt it to your specific data structure and query requirements.
+Ensure proper GraphQL schema and resolver implementation on your server-side to handle the defined queries.
+Explore features like pagination and lazy loading for optimized data fetching in deeper dynamic routes.
+I hope this revised playbook provides a clearer understanding of how to integrate GraphQL and Apollo Client for dynamic route fetching in your Next.js project! Feel free to ask if you have further questions or need more specific guidance.
+
+
+
+
